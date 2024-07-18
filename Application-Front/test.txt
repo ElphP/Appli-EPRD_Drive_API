@@ -1,0 +1,1 @@
+Ce dossier contiendra l'application front qui pourra intéragir avec l'API privée
