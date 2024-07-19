@@ -9,6 +9,7 @@ const LoginPage = () => {
     // États pour stocker le nom d'utilisateur et le mot de passe
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    
 
     // Fonction pour gérer la soumission du formulaire
     const handleSubmit = async  (event) => {
@@ -35,8 +36,10 @@ const LoginPage = () => {
         //     console.log("Erreur de connexion");
         // }
         let data={
-            "role":"user",
+            "role":"admin",
         }
+        
+         localStorage.setItem("role", data.role);
         navigate(data.role === "admin" ? "/admin" : "/user");
     };
 
