@@ -1,8 +1,8 @@
 
 // import './App.css';
 import LoginPage from "./Components/LoginPage/LoginPage";
-import AdminPage from "./Components/Admin/AdminPage";
-import UserPage from "./Components/UserPage/UserPage";
+
+import SecurityRoute from "./Components/SecurityRoute";
 import {
     BrowserRouter as Router,
     Route,
@@ -10,18 +10,47 @@ import {
     Navigate,
 } from "react-router-dom";
 import React, { useState, useEffect } from "react";
+import AdminPage from "./Components/Admin/AdminPage";
+import UserPage from "./Components/UserPage/UserPage";
 
 
 function App() {
   
+ const [role, setRole] = useState(null);
 
+ useEffect(() => {
+     const role = localStorage.getItem("role");
+     if (role) {
+         setRole(role);
+     }
+ }, []);
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("role");
+    };
 
   return (
       <Router>
           <Routes>
               <Route path="/login" element={<LoginPage />} />
-              <Route path="/admin" element={<AdminPage />} />
-              <Route path="/user" element={<UserPage />} />
+              <Route
+                  path="/admin"
+                  element={
+                      <SecurityRoute requiredRole="admin">
+                          <AdminPage onLogout={handleLogout} />
+                      </SecurityRoute>
+                  }
+              />
+
+              <Route
+                  path="/user"
+                  element={
+                      <SecurityRoute requiredRole="user">
+                          <UserPage onLogout={handleLogout} />
+                      </SecurityRoute>
+                  }
+              />
               <Route path="*" element={<LoginPage />} />
           </Routes>
       </Router>
