@@ -14,14 +14,7 @@ import React, { useState, useEffect } from "react";
 
 function App() {
   
-  const [role, setRole] = useState(null);
 
-  useEffect(() => {
-      const userRole = localStorage.getItem("role");
-      if (userRole) {
-          setRole(userRole);
-      }
-  }, []);
 
   return (
       <Router>
