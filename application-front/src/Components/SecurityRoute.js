@@ -9,11 +9,11 @@ const SecurityRoute = ({ requiredRole, children }) => {
     const userRole = localStorage.getItem("role");
 
     if (!userRole || userRole !== requiredRole) {
-        // Si l'utilisateur n'est pas authentifié ou n'a pas le bon rôle, redirigez-le vers la page de connexion
+        // Si l'utilisateur n'est pas authentifié ou n'a pas le bon rôle,  page de connexion
         return <Navigate to="/login" />;
     }
 
-    // Sinon, affichez le contenu protégé
+    // Sinon,  contenu protégé
     return children;
 };
 

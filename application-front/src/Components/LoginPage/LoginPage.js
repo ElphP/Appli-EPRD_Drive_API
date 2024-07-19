@@ -18,6 +18,8 @@ const LoginPage = () => {
         console.log("Nom d'utilisateur:", username);
         console.log("Mot de passe:", password);
 
+
+        
         //appel API
         // const response = await fetch("https://example.com/api/login", {
         //     method: "POST",
@@ -36,17 +38,22 @@ const LoginPage = () => {
         //     console.log("Erreur de connexion");
         // }
         let data={
-            "role":"admin",
+            "role":"user",
+            "id_user": 1565,
+            "username": "Elphège",
+            "collection":  ["Sakura", "Olympic fanfare and theme","Ceremonial Hymn","Arsenal","The wind in the willows"]
         }
         
          localStorage.setItem("role", data.role);
-        navigate(data.role === "admin" ? "/admin" : "/user");
+        navigate(data.role === "admin" ? "/admin" : `/user/${data.id_user}`, {
+            state: { ...data },
+        });
     };
 
     return (
         <>
-            <div className="container">
-            <h1>Application Partothèque</h1>
+            <h1 className="conn">Application Partothèque</h1>
+            <div className="containerConnex">
                 <h2>Connexion</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="formGroup">
