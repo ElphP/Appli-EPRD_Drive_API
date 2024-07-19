@@ -44,7 +44,7 @@ function App() {
               />
 
               <Route
-                  path="/user"
+                  path="/user/:userID"
                   element={
                       <SecurityRoute requiredRole="user">
                           <UserPage onLogout={handleLogout} />
