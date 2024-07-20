@@ -1,17 +1,117 @@
-  *  {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-    
-    body  {
-        background-image: url("../../images/biblio2-min.jpg");
-        background-size: cover;
-        backdrop-filter: blur(5px);
-    }
+
     h1  {
         color:white;
       padding-top: 2%;
         font-size: 3.5rem;
         text-align: center;
     }
+
+    h2.admin  {
+      color:  #ff8f4e;
+        text-align: center;
+         font-size: 2.8rem;
+       
+         width: 100%;
+    }
+
+    main  {
+      display: flex;
+    }
+    main>ul  {
+      width: 60%;
+    }
+    .containerUser  {
+      width: 40%;
+      padding: 5%;
+       background-color: rgba(0,0,0,0.5);
+    }
+
+    .containerAdmin  {
+      display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: start;
+        align-items: start;
+        gap: 5%;
+        padding: 5%;
+        background-color: rgba(0,0,0,0.5);
+    }
+
+    .containerAdmin li {
+      list-style-type: none;
+    }
+
+.CD {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+    .CD .plus  {
+      font-size: 1.6rem;
+      background-color: #007bff;
+      cursor: pointer;
+    }
+
+    .CD .trash, .CD .plus  {
+     
+      padding: 20px;
+      width: 80px;
+      height: 80px;
+      border-radius: 20px;
+       margin: 20px;
+         border: none;
+    }
+
+    .CD .trash  {
+      background-color: rgb(249, 64, 64);
+    }
+
+[data-title]:hover:after {
+    opacity: 1;
+    transition: all 0.1s ease 0.5s;
+    visibility: visible;
+}
+[data-title]:after {
+    content: attr(data-title);
+    background-color: #0f253c;
+    color: #fff;
+    font-size: 1.6rem;
+    padding: 6px 15px;
+    position: absolute;
+    bottom: -50px;
+    left: 0%;
+    white-space: nowrap;
+    box-shadow: 1px 1px 3px #222222;
+    opacity: 0;
+    border: none;
+    border-radius: 5px;
+    z-index: 5;
+    visibility: hidden;
+}
+[data-title] {
+    position: relative;
+}
+
+.present  {
+  background-color: rgba(0,0,0,0.5);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.align p  {
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.present li  {
+  list-style-type:circle;
+  font-size: 1.2rem;
+  
+}
+.present ul  {
+  margin-left: 60px;
+  margin-top: 10px;
+}

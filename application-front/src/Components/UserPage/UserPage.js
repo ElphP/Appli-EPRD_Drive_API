@@ -18,7 +18,7 @@ const UserPage = () => {
     return (
         <>
             <h1>Bonjour {username},</h1>
-            <h2>Voici les partitions que nous mettons à ta disposition !</h2>
+            <h2 className="user">Voici les partitions que nous mettons à ta disposition !</h2>
 
             <ul className="container">
                 {collection.length === 0 ? (

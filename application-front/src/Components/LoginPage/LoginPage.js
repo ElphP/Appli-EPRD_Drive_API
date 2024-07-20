@@ -38,9 +38,9 @@ const LoginPage = () => {
         //     console.log("Erreur de connexion");
         // }
         let data={
-            "role":"user",
+            "role":"admin",
             "id_user": 1565,
-            "username": "Elphège",
+            "username": "Rémi",
             "collection":  ["Sakura", "Olympic fanfare and theme","Ceremonial Hymn","Arsenal","The wind in the willows"]
         }
         
@@ -76,7 +76,7 @@ const LoginPage = () => {
                             required
                         />
                     </div>
-                    <button type="submit">Se connecter</button>
+                    <button className="btnLogin" type="submit">Se connecter</button>
                 </form>
             </div>
         </>
