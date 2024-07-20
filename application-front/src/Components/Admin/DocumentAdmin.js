@@ -1,12 +1,12 @@
-import "./Document.css";
-
+import "./DocumentAdmin.css";
+// Importation des bibliothèques nécessaires
 import img from "../../images/document-icon-18.png";
 
 
 const Document = ({titre,telecharg}) => {
     return (
         <>
-            <div className="card">
+            <div className="cardAdmin">
                 <img
                     src={img}
                     alt="document"

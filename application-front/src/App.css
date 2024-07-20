@@ -1,1 +1,13 @@
-
+ *  {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body  {
+        background-image: url("./images/biblio2-min.jpg");
+        background-size: cover;
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+       
+    }

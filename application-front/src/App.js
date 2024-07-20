@@ -1,5 +1,5 @@
 
-// import './App.css';
+import './App.css';
 import LoginPage from "./Components/LoginPage/LoginPage";
 
 import SecurityRoute from "./Components/SecurityRoute";
@@ -16,14 +16,7 @@ import UserPage from "./Components/UserPage/UserPage";
 
 function App() {
   
- const [role, setRole] = useState(null);
 
- useEffect(() => {
-     const role = localStorage.getItem("role");
-     if (role) {
-         setRole(role);
-     }
- }, []);
 
     const handleLogout = () => {
         localStorage.removeItem("token");
