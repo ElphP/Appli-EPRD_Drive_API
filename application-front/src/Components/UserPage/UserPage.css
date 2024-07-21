@@ -7,7 +7,7 @@
         text-align: center;
         background-color: rgba(0,0,0,0.5);
     }
-    h2 .user {
+    h2.user {
         color:  #ff8f4e;
         text-align: center;
          font-size: 2rem;

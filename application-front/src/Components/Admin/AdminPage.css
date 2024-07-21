@@ -16,17 +16,21 @@
 
     main  {
       display: flex;
+      padding: 4%;
     }
-    main>ul  {
+    .containerAdmin  {
       width: 60%;
     }
     .containerUser  {
       width: 40%;
       padding: 5%;
-       background-color: rgba(0,0,0,0.5);
+      
+       border: 3px solid white;
+       border-radius: 15px;
     }
 
-    .containerAdmin  {
+    .listDoc
+      {
       display: flex;
         flex-direction: row;
         flex-wrap: wrap;
@@ -34,7 +38,7 @@
         align-items: start;
         gap: 5%;
         padding: 5%;
-        background-color: rgba(0,0,0,0.5);
+        
     }
 
     .containerAdmin li {
@@ -94,11 +98,13 @@
 }
 
 .present  {
-  background-color: rgba(0,0,0,0.5);
+  
   color: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 10px;
+  
 }
 
 .align p  {
@@ -114,4 +120,19 @@
 .present ul  {
   margin-left: 60px;
   margin-top: 10px;
+}
+
+.fond  {
+  background-color: rgba(0,0,0,0.5);
+}
+
+.containerUser li {
+    list-style-type: none;
+    margin: 15px 0;
+}
+
+.noData  {
+  color: white;
+  text-align: center;
+  font-size: 1.5rem;
 }
