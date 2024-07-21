@@ -52,7 +52,7 @@ const LoginPage = () => {
                 ["Arsenal", 32],
                 ["The wind in the willows", 54],
             ],
-            // ces données servent pour l'affichage des contenus des partothèques "utilisateurs" sur la page admin (id_user ne servira que pour la MAJ des partothèques User par l'admin , l'objet complet est renvoyé et il faudra en extraire id-user pour le rajouter dans la table associative exemple rajouter un enregistrement id_user=3 et id_fichier=75) ce qui permettra de rajouter "Olympic fanfare and theme" à Flavie dans cet exemple)
+            // ces données servent pour l'affichage des contenus des partothèques "utilisateurs" sur la page admin (id_user ne servira que pour la MAJ des partothèques User par l'admin , l'objet complet est renvoyé et il faudra en extraire id-user pour le rajouter dans la table associative exemple rajouter un enregistrement id_user=3 et id_fichier=75) ce qui permettra de rajouter "Olympic fanfare and theme" à l'utilisateur Flavie dans cet exemple)
             listUsers: [
                 {
                     name: "Elphège",
