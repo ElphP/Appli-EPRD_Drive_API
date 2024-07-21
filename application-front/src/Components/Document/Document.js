@@ -11,6 +11,7 @@ const Document = ({titre,telecharg}) => {
                     src={img}
                     alt="document"
                     onClick={telecharg}
+                    draggable="false"
                 />
                 <p className="doc">{titre}</p>
             </div>

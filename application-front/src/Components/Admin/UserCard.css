@@ -26,6 +26,14 @@
     border-radius: 20px;
     margin-top: 16px;
     font-size: 1.4rem;
-    display: none;
+    display: none; 
+}
+
+.popup li  {
+    cursor: grab;
+}
+
+.popup li:active  {
+    cursor: grabbing;
 }
 

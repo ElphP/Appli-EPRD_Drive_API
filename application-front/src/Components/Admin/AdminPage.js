@@ -1,9 +1,11 @@
 import "./AdminPage.css";
 // Importation des bibliothèques nécessaires
-// import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 // import { useNavigate } from "react-router-dom";
 import DocumentAdmin from "../Admin/DocumentAdmin";
 import UserCard from "../Admin/UserCard";
+import FileUpload from "./Modal/FileUpload";
+import CreateUser from "./Modal/CreateUser";
 import { useLocation } from "react-router-dom";
 import imgTrash from "../../images/trash-can-solid.svg";
 import imgPlus from "../../images/plus-solid (1).svg";
@@ -15,7 +17,7 @@ const AdminPage = () => {
     const collection = state.collection || [];
     const listUsers = state.listUsers || [];
 
-        
+        // affichage listes des partitions disponibles pour chaque utilisateur
         const showList = (index) =>  {
             let popup= document.getElementById("popup"+index);
            popup.style.display = "block";
@@ -24,6 +26,7 @@ const AdminPage = () => {
             let popup= document.getElementById("popup"+index);
            popup.style.display = "none";
         }
+
             // drag and drop functions
          const onDragStart = (event) => {
              event.dataTransfer.setData("Text", event.target.id);
@@ -40,8 +43,22 @@ const AdminPage = () => {
             //ici remplacer le console.log ci-dessus en effectuant un Create de l'enregistrement ayant  user.id_user comme identifiant et en utilisant "draggedItemTitle" qui est l'ID du fichier à ajouter à cette entrée! (onDrop deviendra une fonction async) dans la table associative (users-fichiers)
         }
         
+        const [showModal1, setShowModal1] = useState(false);
+        const [showModal2, setShowModal2] = useState(false);
+        
 
+        const ModalOpen1 = (event) => {
+            console.log(event.target.id);
+            setShowModal1(true);
+              }
+        const ModalOpen2 = (event) => {
+            console.log(event.target.id);
+            setShowModal2(true);
+              }
 
+        const handleClose1 = () => setShowModal1(false);
+        const handleClose2 = () => setShowModal2(false);
+        
     // Simulate API call to save the dragged item for the target user
     return (
         <div className="fond">
@@ -55,20 +72,21 @@ const AdminPage = () => {
                     <p>Ici tu pourras: </p>
                     <ul>
                         <li>
-                            Ajouter/ Enlever des partitions de ta partothèque
+                            Ajouter/ Supprimer des partitions de ta partothèque
                         </li>
                         <li>
-                            Ajouter/ Enlever des utilisateurs avec qui tu veux
+                            Ajouter/ Supprimer des utilisateurs avec qui tu veux
                             partager les partitions
+                        </li>
+                        <li>
+                            Visualiser (au survol) les partitions disponibles
+                            dans la partothèque de tes utilisateurs
                         </li>
                         <li>
                             Partager tes partitions avec les utilisateurs (en
                             faisant un "glisser/déposer' de la partition sur
-                            l'utilisateur)
-                        </li>
-                        <li>
-                            Visualiser (au survol) les partitions disponibles
-                            dans la partothèque des utilisateurs
+                            l'utilisateur) ou supprimer des partitions de leur
+                            liste (glisser/déposer dans la poubelle)
                         </li>
                     </ul>
                 </div>
@@ -79,10 +97,22 @@ const AdminPage = () => {
                         <button
                             className="plus"
                             data-title="Cliquer ici pour ajouter une partition à la collection"
+                            onClick={(event) => ModalOpen1(event)}
+                            id="plusPart"
                         >
-                            <img src={imgPlus} alt="ajouter" />
+                            <img
+                                src={imgPlus}
+                                alt="ajouter"
+                                draggable="false"
+                            />
                         </button>
-                        <img className="trash" src={imgTrash} alt="poubelle" />
+                        <img
+                            className="trash"
+                            src={imgTrash}
+                            alt="poubelle"
+                            onDragOver={onDragOver}
+                            draggable="false"
+                        />
                     </div>
                     <h2 className="admin">Partitions</h2>
                     <ul className="listDoc">
@@ -94,7 +124,7 @@ const AdminPage = () => {
                             collection.map((user, index) => (
                                 <li
                                     draggable="true"
-                                    key={"collection"+index}
+                                    key={"collection" + index}
                                     onDragStart={onDragStart}
                                     id={user[1]}
                                 >
@@ -109,10 +139,22 @@ const AdminPage = () => {
                         <button
                             className="plus"
                             data-title="Cliquer ici pour ajouter un utilisateur"
+                            onClick={(event) => ModalOpen2(event)}
+                            id="plusUser"
                         >
-                            <img src={imgPlus} alt="ajouter" />
+                            <img
+                                src={imgPlus}
+                                alt="ajouter"
+                                draggable="false"
+                            />
                         </button>
-                        <img className="trash" src={imgTrash} alt="poubelle" />
+                        <img
+                            className="trash"
+                            src={imgTrash}
+                            alt="poubelle"
+                            onDragOver={onDragOver}
+                            draggable="false"
+                        />
                     </div>
                     <h2 className="admin">Liste d'utilisateurs</h2>
                     <ul>
@@ -123,11 +165,11 @@ const AdminPage = () => {
                         ) : (
                             listUsers.map((user, index) => (
                                 <li
-                                    key={"listUsers"+index}
+                                    key={"listUsers" + index}
                                     onMouseEnter={() => showList(index)}
                                     onMouseLeave={() => hideList(index)}
                                     onDragOver={onDragOver}
-                                    onDrop={(event) => onDrop(event, {user})}
+                                    onDrop={(event) => onDrop(event, { user })}
                                     id={user.id_user}
                                 >
                                     <UserCard
@@ -139,6 +181,8 @@ const AdminPage = () => {
                             ))
                         )}
                     </ul>
+                    <FileUpload show={showModal1} handleClose={handleClose1} />
+                    <CreateUser show={showModal2} handleClose={handleClose2} />
                 </div>
             </main>
         </div>
