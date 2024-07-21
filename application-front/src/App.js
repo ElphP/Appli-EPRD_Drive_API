@@ -24,29 +24,31 @@ function App() {
     };
 
   return (
-      <Router>
-          <Routes>
-              <Route path="/login" element={<LoginPage />} />
-              <Route
-                  path="/admin"
-                  element={
-                      <SecurityRoute requiredRole="admin">
-                          <AdminPage onLogout={handleLogout} />
-                      </SecurityRoute>
-                  }
-              />
-
-              <Route
-                  path="/user/:userID"
-                  element={
-                      <SecurityRoute requiredRole="user">
-                          <UserPage onLogout={handleLogout} />
-                      </SecurityRoute>
-                  }
-              />
-              <Route path="*" element={<LoginPage />} />
-          </Routes>
-      </Router>
+      <>
+      <div className="bg"></div>
+          <Router>
+              <Routes>
+                  <Route path="/login" element={<LoginPage />} />
+                  <Route
+                      path="/admin"
+                      element={
+                          <SecurityRoute requiredRole="admin">
+                              <AdminPage onLogout={handleLogout} />
+                          </SecurityRoute>
+                      }
+                  />
+                  <Route
+                      path="/user/:userID"
+                      element={
+                          <SecurityRoute requiredRole="user">
+                              <UserPage onLogout={handleLogout} />
+                          </SecurityRoute>
+                      }
+                  />
+                  <Route path="*" element={<LoginPage />} />
+              </Routes>
+          </Router>
+      </>
   );
 }
 

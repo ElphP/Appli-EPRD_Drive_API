@@ -37,12 +37,49 @@ const LoginPage = () => {
         // } else {
         //     console.log("Erreur de connexion");
         // }
-        let data={
-            "role":"admin",
-            "id_user": 1565,
-            "username": "Rémi",
-            "collection":  ["Sakura", "Olympic fanfare and theme","Ceremonial Hymn","Arsenal","The wind in the willows"]
-        }
+        let data = {
+            // donnée qui sert à afficher le bon type de page (admin ou utilisateur?)
+            role: "admin",
+            // donnée qui est injectée dans l'URL (pourra éventuellement servir si il y a plusieurs administrateurs)
+            id_user: 1565,
+            // donnée que j'utilise pour afficher le nom de l'utilisateur qui s'est connecté (admin ou user)
+            username: "Rémi",
+            // donnée qui permet l'affichage de la partothèque (en mode admin ou user)  je récupère le titre pour l'affichage et l'ID pour la future MAJ des partothèques User par l'admin (en drag and drop)
+            collection: [
+                ["Sakura", 89],
+                ["Olympic fanfare and theme", 75],
+                ["Ceremonial Hymn", 18],
+                ["Arsenal", 32],
+                ["The wind in the willows", 54],
+            ],
+            // ces données servent pour l'affichage des contenus des partothèques "utilisateurs" sur la page admin (id_user ne servira que pour la MAJ des partothèques User par l'admin , l'objet complet est renvoyé et il faudra en extraire id-user pour le rajouter dans la table associative exemple rajouter un enregistrement id_user=3 et id_fichier=75) ce qui permettra de rajouter "Olympic fanfare and theme" à Flavie dans cet exemple)
+            listUsers: [
+                {
+                    name: "Elphège",
+                    id_user: 1,
+                    titres: [
+                        "Ceremonial Hymn",
+                        "Arsenal",
+                        "The wind in the willows",
+                    ],
+                },
+                {
+                    name: "Magalie",
+                    id_user: 2,
+                    titres: ["Olympic fanfare and theme", "Ceremonial Hymn"],
+                },
+                {
+                    name: "Flavie",
+                    id_user: 3,
+                    titres: [],
+                },
+                {
+                    name: "MarieH",
+                    id_user: 4,
+                    titres: ["The wind in the willows"],
+                },
+            ],
+        };
         
          localStorage.setItem("role", data.role);
         navigate(data.role === "admin" ? "/admin" : `/user/${data.id_user}`, {
