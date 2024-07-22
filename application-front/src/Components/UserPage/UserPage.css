@@ -1,0 +1,29 @@
+ 
+    h1  {
+        color:white;
+      padding-top: 2%;
+      padding-bottom: 1%;
+        font-size: 3.5rem;
+        text-align: center;
+        background-color: rgba(0,0,0,0.5);
+    }
+    h2.user {
+        color:  #ff8f4e;
+        text-align: center;
+         font-size: 2rem;
+         background-color: rgba(0,0,0,0.5);
+          padding-bottom: 1%;
+    }
+   
+    .container  {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: start;
+        align-items: start;
+        gap: 5%;
+        padding: 5%;
+    }
+    .container li  {
+        list-style-type: none;
+    }
