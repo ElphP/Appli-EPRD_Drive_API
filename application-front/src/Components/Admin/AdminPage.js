@@ -27,21 +27,87 @@ const AdminPage = () => {
            popup.style.display = "none";
         }
 
-            // drag and drop functions
-         const onDragStart = (event) => {
-             event.dataTransfer.setData("Text", event.target.id);
+        const [dragOrigin, setDragOrigin]= useState("");
+            
+        // drag and drop functions
+         const onDragStartDoc = (event) => {
+             
+                const data = JSON.stringify({"type":"doc", "docId":event.target.id  });
+                event.dataTransfer.setData("application/json", data);
+            // code ci-dessous sert à "cibler" la bonne poubelle (dans le JSX)
+                setDragOrigin("doc");
          };
+
+         const onDragStartUser = (event) => {
+              const data = JSON.stringify({
+                "type": "user",
+                  "userId": event.target.id    
+              });
+
+              event.dataTransfer.setData("application/json", data);
+              console.log(data);
+             // code ci-dessous sert à "cibler" la bonne poubelle
+             setDragOrigin("user");
+         };
+
+         const onDragStartUserDoc = ( titre,id, event) => {
+             const data = JSON.stringify({"type":"userDoc", "titre":titre, "userId":id  });
+             event.dataTransfer.setData("application/json", data);
+             console.log(data);
+             event.stopPropagation();
+             // code ci-dessous sert à "cibler" la bonne poubelle
+             setDragOrigin("user");
+         };
+       
 
           const onDragOver = (event) => {
               event.preventDefault();
           };
         // drop function
-        const onDrop = (event, targetItem) => {
+        const onDrop = (event, targetItem="trash") => {
             event.preventDefault();
-            const draggedItemId = event.dataTransfer.getData("Text");
-            console.log(draggedItemId, targetItem);
-            //ici remplacer le console.log ci-dessus en effectuant un Create de l'enregistrement ayant  user.id_user comme identifiant et en utilisant "draggedItemTitle" qui est l'ID du fichier à ajouter à cette entrée! (onDrop deviendra une fonction async) dans la table associative (users-fichiers)
+            const draggedElementJSON =
+               JSON.parse (event.dataTransfer.getData("application/json"));
+                
+           
+
+            if(targetItem!=="trash")  {
+                console.log(draggedElementJSON, targetItem);
+                //ici remplacer le console.log ci-dessus en effectuant un Create de l'enregistrement ayant  user.id_user comme identifiant et en utilisant "draggedItemTitle" qui est l'ID du fichier à ajouter à cette entrée! (onDrop deviendra une fonction async) dans la table associative (users-fichiers)
+            }
+            else  {
+                 if (draggedElementJSON.type === "doc") {
+                     alert(
+                         "Voulez-vous vraiment supprimer la partition " +
+                             draggedElementJSON.docId +
+                             " ?"
+                     );
+                 } else if (draggedElementJSON.type === "user") {
+                     alert(
+                         "Voulez-vous vraiment supprimer l'utilisateur " +
+                             draggedElementJSON.userId +
+                             " ?"
+                     );
+                 } else if (draggedElementJSON.type === "userDoc") {
+                     alert(
+                         "Voulez-vous vraiment supprimer la partition " +
+                             draggedElementJSON.titre +
+                             " de l'utilisateur " +
+                             draggedElementJSON.userId +
+                             " ?"
+                     );
+                 }
+            }
+           
         }
+
+
+       
+
+  
+        
+
+
         
         const [showModal1, setShowModal1] = useState(false);
         const [showModal2, setShowModal2] = useState(false);
@@ -93,6 +159,7 @@ const AdminPage = () => {
             </div>
             <main>
                 <div className="containerAdmin">
+                        <h2 className="admin">Partitions</h2>
                     <div className="CD">
                         <button
                             className="plus"
@@ -110,11 +177,13 @@ const AdminPage = () => {
                             className="trash"
                             src={imgTrash}
                             alt="poubelle"
-                            onDragOver={onDragOver}
-                            draggable="false"
+                            onDragOver={
+                                dragOrigin === "doc" ? onDragOver : null
+                            }
+                            draggable="true"
+                            onDrop={(event) => onDrop(event)}
                         />
                     </div>
-                    <h2 className="admin">Partitions</h2>
                     <ul className="listDoc">
                         {collection.length === 0 ? (
                             <li className="noData">
@@ -125,7 +194,7 @@ const AdminPage = () => {
                                 <li
                                     draggable="true"
                                     key={"collection" + index}
-                                    onDragStart={onDragStart}
+                                    onDragStart={onDragStartDoc}
                                     id={user[1]}
                                 >
                                     <DocumentAdmin titre={user[0]} />
@@ -135,6 +204,7 @@ const AdminPage = () => {
                     </ul>
                 </div>
                 <div className="containerUser">
+                        <h2 className="admin">Liste d'utilisateurs</h2>
                     <div className="CD">
                         <button
                             className="plus"
@@ -152,11 +222,13 @@ const AdminPage = () => {
                             className="trash"
                             src={imgTrash}
                             alt="poubelle"
-                            onDragOver={onDragOver}
-                            draggable="false"
+                            onDragOver={
+                                dragOrigin === "user" ? onDragOver : null
+                            }
+                            draggable="true"
+                            onDrop={(event) => onDrop(event)}
                         />
                     </div>
-                    <h2 className="admin">Liste d'utilisateurs</h2>
                     <ul>
                         {listUsers.length === 0 ? (
                             <li className="noData">
@@ -165,17 +237,19 @@ const AdminPage = () => {
                         ) : (
                             listUsers.map((user, index) => (
                                 <li
-                                    key={"listUsers" + index}
+                                    key={user.id_user}
                                     onMouseEnter={() => showList(index)}
                                     onMouseLeave={() => hideList(index)}
                                     onDragOver={onDragOver}
                                     onDrop={(event) => onDrop(event, { user })}
                                     id={user.id_user}
+                                    onDragStart={onDragStartUser}
                                 >
                                     <UserCard
                                         alias={user.name}
                                         id={index}
                                         titres={user.titres}
+                                        onDragStartUserDocFnct={onDragStartUserDoc}
                                     />
                                 </li>
                             ))
