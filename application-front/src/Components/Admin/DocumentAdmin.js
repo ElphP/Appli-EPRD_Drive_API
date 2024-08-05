@@ -3,7 +3,9 @@ import "./DocumentAdmin.css";
 import img from "../../images/document-icon-18.png";
 
 
-const Document = ({titre,telecharg}) => {
+const Document = ({titre ,telecharg}) => {
+   
+    
     return (
         <>
             <div className="cardAdmin" >
