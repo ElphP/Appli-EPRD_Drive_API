@@ -58,15 +58,18 @@ const LoginPage = () => {
                     name: "Elphège",
                     id_user: 1,
                     titres: [
-                        "Ceremonial Hymn",
-                        "Arsenal",
-                        "The wind in the willows",
+                        ["Ceremonial Hymn", 18],
+                        ["Arsenal", 32],
+                        ["The wind in the willows", 54],
                     ],
                 },
                 {
                     name: "Magalie",
                     id_user: 2,
-                    titres: ["Olympic fanfare and theme", "Ceremonial Hymn"],
+                    titres: [
+                        ["Olympic fanfare and theme", 75],
+                        ["Ceremonial Hymn", 18],
+                    ],
                 },
                 {
                     name: "Flavie",
@@ -76,7 +79,7 @@ const LoginPage = () => {
                 {
                     name: "MarieH",
                     id_user: 4,
-                    titres: ["The wind in the willows"],
+                    titres: [ ["The wind in the willows", 54],]
                 },
             ],
         };

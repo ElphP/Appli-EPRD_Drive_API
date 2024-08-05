@@ -6,6 +6,7 @@ import DocumentAdmin from "../Admin/DocumentAdmin";
 import UserCard from "../Admin/UserCard";
 import FileUpload from "./Modal/FileUpload";
 import CreateUser from "./Modal/CreateUser";
+import TrashModal from "./Modal/TrashModal";
 import { useLocation } from "react-router-dom";
 import imgTrash from "../../images/trash-can-solid.svg";
 import imgPlus from "../../images/plus-solid (1).svg";
@@ -17,7 +18,9 @@ const AdminPage = () => {
     const collection = state.collection || [];
     const listUsers = state.listUsers || [];
 
-        // affichage listes des partitions disponibles pour chaque utilisateur
+    const [dataDelete, setDataDelete] = useState([])
+
+        // affichage listes des partitions disponibles pour chaque utilisateur (onhover)
         const showList = (index) =>  {
             let popup= document.getElementById("popup"+index);
            popup.style.display = "block";
@@ -31,29 +34,44 @@ const AdminPage = () => {
             
         // drag and drop functions
          const onDragStartDoc = (event) => {
-             
-                const data = JSON.stringify({"type":"doc", "docId":event.target.id  });
+             const titre = event.target.getAttribute("titre");
+                const data = JSON.stringify({
+                    "type": "doc",
+                    "docId": event.target.id,
+                    "titre": titre,
+                    "userId": "",
+                    "alias": "",
+                });
+                
+                
                 event.dataTransfer.setData("application/json", data);
             // code ci-dessous sert à "cibler" la bonne poubelle (dans le JSX)
                 setDragOrigin("doc");
          };
 
          const onDragStartUser = (event) => {
+            // utilisation de l'attribut data-alias créé dans userCard
+             const alias = event.target.getAttribute("data-alias");
+             
               const data = JSON.stringify({
-                "type": "user",
-                  "userId": event.target.id    
+                  "type": "user",
+                  "docId": "",
+                  "titre": "",
+                  "userId": event.target.id,
+                  "alias": alias,
               });
 
               event.dataTransfer.setData("application/json", data);
-              console.log(data);
+             
              // code ci-dessous sert à "cibler" la bonne poubelle
              setDragOrigin("user");
          };
 
-         const onDragStartUserDoc = ( titre,id, event) => {
-             const data = JSON.stringify({"type":"userDoc", "titre":titre, "userId":id  });
+         const onDragStartUserDoc = ( titre,id, alias, docId, event) => {
+           
+             const data = JSON.stringify({"type":"userDoc", "docId": docId, "titre":titre, "userId":id, "alias": alias  });
              event.dataTransfer.setData("application/json", data);
-             console.log(data);
+             
              event.stopPropagation();
              // code ci-dessous sert à "cibler" la bonne poubelle
              setDragOrigin("user");
@@ -75,28 +93,44 @@ const AdminPage = () => {
                 console.log(draggedElementJSON, targetItem);
                 //ici remplacer le console.log ci-dessus en effectuant un Create de l'enregistrement ayant  user.id_user comme identifiant et en utilisant "draggedItemTitle" qui est l'ID du fichier à ajouter à cette entrée! (onDrop deviendra une fonction async) dans la table associative (users-fichiers)
             }
-            else  {
-                 if (draggedElementJSON.type === "doc") {
-                     alert(
-                         "Voulez-vous vraiment supprimer la partition " +
-                             draggedElementJSON.docId +
-                             " ?"
-                     );
-                 } else if (draggedElementJSON.type === "user") {
-                     alert(
-                         "Voulez-vous vraiment supprimer l'utilisateur " +
-                             draggedElementJSON.userId +
-                             " ?"
-                     );
-                 } else if (draggedElementJSON.type === "userDoc") {
-                     alert(
-                         "Voulez-vous vraiment supprimer la partition " +
-                             draggedElementJSON.titre +
-                             " de l'utilisateur " +
-                             draggedElementJSON.userId +
-                             " ?"
-                     );
-                 }
+            else if (targetItem === "trash") {
+                
+                if (draggedElementJSON.type === "doc") {
+                   setDataDelete([draggedElementJSON.type,
+                        draggedElementJSON.docId, draggedElementJSON.titre])
+                    ModalOpen3()
+                    ;
+                } else if (draggedElementJSON.type === "user") {
+                    //  alert(
+                    //      "Voulez-vous vraiment supprimer l'utilisateur " +
+                    //          draggedElementJSON.userId +
+                    //          " ?"
+                    //  );
+                      setDataDelete([
+                          draggedElementJSON.type,
+                          draggedElementJSON.userId,
+                          draggedElementJSON.alias,
+                      ]);
+                    ModalOpen3(
+                    );
+                } else if (draggedElementJSON.type === "userDoc") {
+                    //  alert(
+                    //      "Voulez-vous vraiment supprimer la partition " +
+                    //          draggedElementJSON.titre +
+                    //          " de l'utilisateur " +
+                    //          draggedElementJSON.userId +
+                    //          " ?"
+                    //  );
+                      setDataDelete([
+                          draggedElementJSON.type,
+                          draggedElementJSON.docId,
+                          draggedElementJSON.titre,
+                          draggedElementJSON.userId,
+                          draggedElementJSON.alias,
+                      ]);
+                    ModalOpen3(
+                    );
+                }
             }
            
         }
@@ -111,6 +145,7 @@ const AdminPage = () => {
         
         const [showModal1, setShowModal1] = useState(false);
         const [showModal2, setShowModal2] = useState(false);
+        const [showModal3, setShowModal3] = useState(false);
         
 
         const ModalOpen1 = (event) => {
@@ -121,9 +156,15 @@ const AdminPage = () => {
             console.log(event.target.id);
             setShowModal2(true);
               }
+        const ModalOpen3 = () => {
+            setShowModal3(true);
+              }
 
         const handleClose1 = () => setShowModal1(false);
         const handleClose2 = () => setShowModal2(false);
+        const handleClose3 = () => setShowModal3(false);
+
+   
         
     // Simulate API call to save the dragged item for the target user
     return (
@@ -159,7 +200,7 @@ const AdminPage = () => {
             </div>
             <main>
                 <div className="containerAdmin">
-                        <h2 className="admin">Partitions</h2>
+                    <h2 className="admin">Partitions</h2>
                     <div className="CD">
                         <button
                             className="plus"
@@ -196,6 +237,7 @@ const AdminPage = () => {
                                     key={"collection" + index}
                                     onDragStart={onDragStartDoc}
                                     id={user[1]}
+                                    titre={user[0]}
                                 >
                                     <DocumentAdmin titre={user[0]} />
                                 </li>
@@ -204,7 +246,7 @@ const AdminPage = () => {
                     </ul>
                 </div>
                 <div className="containerUser">
-                        <h2 className="admin">Liste d'utilisateurs</h2>
+                    <h2 className="admin">Liste d'utilisateurs</h2>
                     <div className="CD">
                         <button
                             className="plus"
@@ -236,6 +278,8 @@ const AdminPage = () => {
                             </li>
                         ) : (
                             listUsers.map((user, index) => (
+                                
+                                
                                 <li
                                     key={user.id_user}
                                     onMouseEnter={() => showList(index)}
@@ -244,12 +288,16 @@ const AdminPage = () => {
                                     onDrop={(event) => onDrop(event, { user })}
                                     id={user.id_user}
                                     onDragStart={onDragStartUser}
+                                    
                                 >
                                     <UserCard
                                         alias={user.name}
                                         id={index}
                                         titres={user.titres}
-                                        onDragStartUserDocFnct={onDragStartUserDoc}
+                                       
+                                        onDragStartUserDocFnct={
+                                            onDragStartUserDoc
+                                        }
                                     />
                                 </li>
                             ))
@@ -257,6 +305,11 @@ const AdminPage = () => {
                     </ul>
                     <FileUpload show={showModal1} handleClose={handleClose1} />
                     <CreateUser show={showModal2} handleClose={handleClose2} />
+                    <TrashModal
+                        show={showModal3}
+                        handleClose={handleClose3}
+                        data={dataDelete}
+                    />
                 </div>
             </main>
         </div>

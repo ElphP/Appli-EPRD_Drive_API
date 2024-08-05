@@ -1,0 +1,21 @@
+
+
+.text  {
+  color: #fff;
+  font-size: 1.5rem;
+}
+.colorText  {
+  color: rgb(249, 64, 64);
+}
+
+
+
+.modal-trash {
+  background: black;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+ width: 500px;
+ height: auto;
+ padding: 30px;
+}
