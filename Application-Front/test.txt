@@ -1,3 +1,0 @@
-Cette appication est développée en 2 parties  sur 2 branches disctinctes: 
-1 branche React (interface)
-1 branche Symfony (API Rest privée)
