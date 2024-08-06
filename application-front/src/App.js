@@ -7,9 +7,9 @@ import {
     BrowserRouter as Router,
     Route,
     Routes,
-    Navigate,
+    // Navigate,
 } from "react-router-dom";
-import React, { useState, useEffect } from "react";
+// import React, { useState, useEffect } from "react";
 import AdminPage from "./Components/Admin/AdminPage";
 import UserPage from "./Components/UserPage/UserPage";
 

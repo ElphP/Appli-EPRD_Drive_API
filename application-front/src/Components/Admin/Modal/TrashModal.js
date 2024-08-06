@@ -18,6 +18,7 @@ const TrashModal = ({ show, handleClose, data }) => {
   
     return (
         <>
+        
             <div className={overlay}></div>
             <div className={showHideClassName}>
                 <section className="modal-trash ">
@@ -25,7 +26,7 @@ const TrashModal = ({ show, handleClose, data }) => {
                     <p className="text">Etes-vous sur de vouloir supprimer la partition <span className="colorText">{data[2]}</span> de votre bibliothèque?</p>
                   } 
                   {data[0]==="user" &&
-                    <p className="text">Etes-vous sur de vouloir supprimer l'utilisateur <span className="colorText">{data[4]}</span> de votre zone d'échange?</p>
+                    <p className="text">Etes-vous sur de vouloir supprimer l'utilisateur <span className="colorText">{data[2]} </span> de votre zone d'échange?</p>
                   } 
                   {data[0]==="userDoc" &&
                     <p className="text">Etes-vous sur de vouloir supprimer la partition <span className="colorText">{data[2]}</span> pour l'utilisateur <span className="colorText">{data[4]}</span>?</p>
