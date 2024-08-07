@@ -18,7 +18,6 @@ const TrashModal = ({ show, handleClose, data }) => {
   
     return (
         <>
-        
             <div className={overlay}></div>
             <div className={showHideClassName}>
                 <section className="modal-trash ">
