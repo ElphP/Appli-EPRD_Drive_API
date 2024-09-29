@@ -65,7 +65,23 @@
       border-radius: 20px;
        margin: 20px;
          border: none;
+    
     }
+
+    .CD  {
+       position: -webkit-sticky; /* Pour les anciens navigateurs */
+    position: sticky;
+    top: 5px; /* Positionne la zone de dépôt en haut de la page */
+    
+    }
+
+  .CDFondNoir  {
+    
+    display: flex;
+    justify-content: center;
+    border-radius: 20px;
+   padding: 0 10px;
+  }
 
     .CD .trash  {
       background-color: rgb(249, 64, 64);

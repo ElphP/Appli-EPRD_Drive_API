@@ -1,6 +1,6 @@
 import "./AdminPage.css";
 // Importation des bibliothèques nécessaires
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 // import { useNavigate } from "react-router-dom";
 import DocumentAdmin from "../Admin/DocumentAdmin";
 import UserCard from "../Admin/UserCard";
@@ -11,14 +11,23 @@ import { useLocation } from "react-router-dom";
 import imgTrash from "../../images/trash-can-solid.svg";
 import imgPlus from "../../images/plus-solid (1).svg";
 
+
 const AdminPage = () => {
     const location = useLocation();
     const { state } = location;
     const username = state.username || "'Utilisateur non identifié'";
-    const collection = state.collection || [];
-    const listUsers = state.listUsers || [];
+    const [collection, setCollection] = useState(state.collection || []);
+    const [listUsers, setListUsers] = useState(state.listUsers || []);
 
     const [dataDelete, setDataDelete] = useState([])
+    const [changeDB, setChangeDB] = useState(false)
+
+    //  pour le rafraîchissement
+   const changeOnDB= (bool) => {
+    setChangeDB(bool)
+   }
+
+    
 
         // affichage listes des partitions disponibles pour chaque utilisateur (onhover)
         const showList = (index) =>  {
@@ -50,14 +59,16 @@ const AdminPage = () => {
          };
 
          const onDragStartUser = (event) => {
-            // utilisation de l'attribut data-alias créé dans userCard
+            // utilisation de l'attribut data-alias et data_userId créé dans userCard
              const alias = event.target.getAttribute("data-alias");
+             const userId = event.target.getAttribute("data-userid");
+             
              
               const data = JSON.stringify({
                   "type": "user",
                   "docId": "",
                   "titre": "",
-                  "userId": event.target.id,
+                  "userId": userId,
                   "alias": alias,
               });
 
@@ -67,7 +78,7 @@ const AdminPage = () => {
              setDragOrigin("user");
          };
 
-         const onDragStartUserDoc = ( titre,id, alias, docId, event) => {
+         const onDragStartUserDoc = ( titre, id, alias, docId, event) => {
            
              const data = JSON.stringify({"type":"userDoc", "docId": docId, "titre":titre, "userId":id, "alias": alias  });
              event.dataTransfer.setData("application/json", data);
@@ -82,17 +93,48 @@ const AdminPage = () => {
               event.preventDefault();
           };
         // drop function
-        const onDrop = (event, targetItem="trash") => {
+        const onDrop = async (event, targetItem="trash") => {
             event.preventDefault();
             const draggedElementJSON =
                JSON.parse (event.dataTransfer.getData("application/json"));
                 
            
-
+            // cible + des utilisateurs
             if(targetItem!=="trash")  {
                 console.log(draggedElementJSON, targetItem);
-                //ici remplacer le console.log ci-dessus en effectuant un Create de l'enregistrement ayant  user.id_user comme identifiant et en utilisant "draggedItemTitle" qui est l'ID du fichier à ajouter à cette entrée! (onDrop deviendra une fonction async) dans la table associative (users-fichiers)
+               
+                  try {
+      
+                const response = await fetch(
+                    "https://127.0.0.1:8000/drive_API/addFileToUser",
+                    {
+                        method: "POST",
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem(
+                                "token"
+                            )}`,
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            file_id: draggedElementJSON.docId,
+                            user_id: targetItem.user.id_user,
+                        }),
+                    }
+                );
+
+                const dataResponse = await response.json();
+                if (!response.ok) {
+                    console.error("Erreur de transfert d'un dossier à un utilisateur");
+                } else {
+                    console.log("Réponse:", dataResponse);
+                    changeOnDB(true);
+                   
+                }
+            } catch (error) {
+                console.error("Erreur:", error);
             }
+            }
+
             else if (targetItem === "trash") {
                 
                 if (draggedElementJSON.type === "doc") {
@@ -135,18 +177,44 @@ const AdminPage = () => {
            
         }
 
-
-       
-
-  
-        
-
-
         
         const [showModal1, setShowModal1] = useState(false);
         const [showModal2, setShowModal2] = useState(false);
         const [showModal3, setShowModal3] = useState(false);
         
+        // rafraichissement (si la BDD évolue)
+   useEffect(() => {
+       if (changeDB) {
+           const fetchUpdatedData = async () => {
+               try {
+                   const response = await fetch(
+                       "https://127.0.0.1:8000/drive_API/user",
+                       {
+                           method: "GET",
+                           headers: {
+                               Authorization:
+                                   `Bearer ` + localStorage.getItem("token"),
+                               "Content-Type": "application/json",
+                           },
+                       }
+                   );
+                   const updatedData = await response.json();
+
+                   // Remplace la collection et la liste des utilisateurs avec les nouvelles données
+                   setCollection(updatedData.collection);
+                   setListUsers(updatedData.listUsers);
+               } catch (error) {
+                   console.error(
+                       "Erreur lors du rafraîchissement des données",
+                       error
+                   );
+               }
+           };
+           fetchUpdatedData();
+           changeOnDB(false);
+       }
+       // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [changeDB]);
 
         const ModalOpen1 = (event) => {
             console.log(event.target.id);
@@ -164,9 +232,37 @@ const AdminPage = () => {
         const handleClose2 = () => setShowModal2(false);
         const handleClose3 = () => setShowModal3(false);
 
-   
+
+        // logique pour ajouter le fondNoir
+     const [isAtTop1, setIsAtTop1] = useState(false);
+     const [isAtTop2, setIsAtTop2] = useState(false);
+     const ref1 = useRef(null);
+     const ref2 = useRef(null);
+
+     useEffect(() => {
+         const checkPosition = () => {
+             if (ref1.current) {
+                 const topPosition1 = ref1.current.getBoundingClientRect().top;
+                 setIsAtTop1(topPosition1===5)
+                
+             }
+             if (ref2.current) {
+                 const topPosition2 = ref2.current.getBoundingClientRect().top;
+                 setIsAtTop2(topPosition2 === 5);
+             }
+         };
+
         
-    // Simulate API call to save the dragged item for the target user
+
+         window.addEventListener("scroll", checkPosition); // Suivre le scroll si l'élément peut bouger
+
+        
+     }, []);
+        
+    
+     
+// JSX
+
     return (
         <div className="fond">
             <h1>Bonjour {username}</h1>
@@ -202,28 +298,38 @@ const AdminPage = () => {
                 <div className="containerAdmin">
                     <h2 className="admin">Partitions</h2>
                     <div className="CD">
-                        <button
-                            className="plus"
-                            data-title="Cliquer ici pour ajouter une partition à la collection"
-                            onClick={(event) => ModalOpen1(event)}
-                            id="plusPart"
+                        <div
+                            className="CDFondNoir"
+                            ref={ref1}
+                            style={{
+                                backgroundColor: isAtTop1
+                                    ? "rgba(0,0,0,0.95)"
+                                    : "transparent",
+                            }}
                         >
+                            <button
+                                className="plus"
+                                data-title="Cliquer ici pour ajouter une partition à la collection"
+                                onClick={(event) => ModalOpen1(event)}
+                                id="plusPart"
+                            >
+                                <img
+                                    src={imgPlus}
+                                    alt="ajouter"
+                                    draggable="false"
+                                />
+                            </button>
                             <img
-                                src={imgPlus}
-                                alt="ajouter"
-                                draggable="false"
+                                className="trash"
+                                src={imgTrash}
+                                alt="poubelle"
+                                onDragOver={
+                                    dragOrigin === "doc" ? onDragOver : null
+                                }
+                                draggable="true"
+                                onDrop={(event) => onDrop(event)}
                             />
-                        </button>
-                        <img
-                            className="trash"
-                            src={imgTrash}
-                            alt="poubelle"
-                            onDragOver={
-                                dragOrigin === "doc" ? onDragOver : null
-                            }
-                            draggable="true"
-                            onDrop={(event) => onDrop(event)}
-                        />
+                        </div>
                     </div>
                     <ul className="listDoc">
                         {collection.length === 0 ? (
@@ -248,28 +354,38 @@ const AdminPage = () => {
                 <div className="containerUser">
                     <h2 className="admin">Liste d'utilisateurs</h2>
                     <div className="CD">
-                        <button
-                            className="plus"
-                            data-title="Cliquer ici pour ajouter un utilisateur"
-                            onClick={(event) => ModalOpen2(event)}
-                            id="plusUser"
+                        <div
+                            className="CDFondNoir"
+                            ref={ref2}
+                            style={{
+                                backgroundColor: isAtTop2
+                                    ? "rgba(0,0,0,0.95)"
+                                    : "transparent",
+                            }}
                         >
+                            <button
+                                className="plus"
+                                data-title="Cliquer ici pour ajouter un utilisateur"
+                                onClick={(event) => ModalOpen2(event)}
+                                id="plusUser"
+                            >
+                                <img
+                                    src={imgPlus}
+                                    alt="ajouter"
+                                    draggable="false"
+                                />
+                            </button>
                             <img
-                                src={imgPlus}
-                                alt="ajouter"
-                                draggable="false"
+                                className="trash"
+                                src={imgTrash}
+                                alt="poubelle"
+                                onDragOver={
+                                    dragOrigin === "user" ? onDragOver : null
+                                }
+                                draggable="true"
+                                onDrop={(event) => onDrop(event)}
                             />
-                        </button>
-                        <img
-                            className="trash"
-                            src={imgTrash}
-                            alt="poubelle"
-                            onDragOver={
-                                dragOrigin === "user" ? onDragOver : null
-                            }
-                            draggable="true"
-                            onDrop={(event) => onDrop(event)}
-                        />
+                        </div>
                     </div>
                     <ul>
                         {listUsers.length === 0 ? (
@@ -278,8 +394,6 @@ const AdminPage = () => {
                             </li>
                         ) : (
                             listUsers.map((user, index) => (
-                                
-                                
                                 <li
                                     key={user.id_user}
                                     onMouseEnter={() => showList(index)}
@@ -288,13 +402,12 @@ const AdminPage = () => {
                                     onDrop={(event) => onDrop(event, { user })}
                                     id={user.id_user}
                                     onDragStart={onDragStartUser}
-                                    
                                 >
                                     <UserCard
                                         alias={user.name}
                                         id={index}
+                                        userId={user.id_user}
                                         titres={user.titres}
-                                       
                                         onDragStartUserDocFnct={
                                             onDragStartUserDoc
                                         }
@@ -303,12 +416,21 @@ const AdminPage = () => {
                             ))
                         )}
                     </ul>
-                    <FileUpload show={showModal1} handleClose={handleClose1} />
-                    <CreateUser show={showModal2} handleClose={handleClose2} />
+                    <FileUpload
+                        show={showModal1}
+                        handleClose={handleClose1}
+                        changeOnDB={changeOnDB}
+                    />
+                    <CreateUser
+                        show={showModal2}
+                        handleClose={handleClose2}
+                        changeOnDB={changeOnDB}
+                    />
                     <TrashModal
                         show={showModal3}
                         handleClose={handleClose3}
                         data={dataDelete}
+                        changeOnDB={changeOnDB}
                     />
                 </div>
             </main>

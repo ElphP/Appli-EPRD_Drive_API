@@ -26,6 +26,10 @@
 .modalCreate  {
     display: flex;
     flex-direction: column;
-    height: 400px;
+    height: 360px;
     
+}
+
+.mess  {
+    color: rgb(249, 64, 64);
 }

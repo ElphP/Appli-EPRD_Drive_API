@@ -17,7 +17,7 @@
   border-radius: 8px;
   text-align: center;
  width: 500px;
- height: 300px;
+ height: 250px;
  padding: 30px;
 }
 
@@ -61,7 +61,7 @@ background-color: rgb(249, 64, 64);
     justify-content: center;
     gap: 30px;
     align-items: center;
-    height: 75%;
+    height: 30%;
 }
 
 .fichierSelect  {
@@ -96,4 +96,24 @@ background-color: rgb(249, 64, 64);
   z-index: 5; /* Sous la modale mais au-dessus du contenu principal */
  
 }
+
+
+
+.titre>input {
+      margin: 10px;
+    width: 60%;
+}
+
+.messUpLoad  {
+   color: rgb(249, 64, 64);
+  padding-bottom: 15px;
+}
+
+.btnCloseUpLoad  {
+  margin-top: 10px;
+}
+
+
+
+
 

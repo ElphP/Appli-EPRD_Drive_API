@@ -2,7 +2,7 @@ import "./UserCard.css";
 
 import img_portrait from "../../images/image-portrait-solid.svg";
 
-const UserCard = ({ alias, id, titres, onDragStartUserDocFnct }) => {
+const UserCard = ({ alias, id, userId, titres, onDragStartUserDocFnct }) => {
   
     return (
         <>
@@ -11,6 +11,7 @@ const UserCard = ({ alias, id, titres, onDragStartUserDocFnct }) => {
                 id={id}
                 draggable="true"
                 data-alias={alias}
+                data-userid={userId}               
             >
                 <img src={img_portrait} alt="UserCard" draggable="false" />
                 <p>{alias}</p>
@@ -27,7 +28,7 @@ const UserCard = ({ alias, id, titres, onDragStartUserDocFnct }) => {
                             <li
                                 draggable="true"
                                 onDragStart={(event) =>
-                                    onDragStartUserDocFnct(titre[0], id, alias, titre[1],  event)
+                                    onDragStartUserDocFnct(titre[0], userId, alias, titre[1],  event)
                                 }
                                 key={alias + titre}
                             >
