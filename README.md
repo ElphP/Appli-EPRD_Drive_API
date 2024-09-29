@@ -39,15 +39,18 @@ Cette structure permet de bien comprendre les interactions entre une interface w
       
         React Router : Pour la gestion de la navigation au sein de l'application.
 
-    * Backend : **Symfony**-**MySQL**
+    * Backend : **Symfony**
     
         Symfony : Un framework PHP pour la gestion des utilisateurs, des documents, et la sécurisation des routes.
+
         API REST : L'application expose des endpoints API pour permettre la communication avec le frontend React.
+
         Doctrine ORM : Utilisé pour l'interaction avec la base de données.
+
         Authentification et sécurité : Gestion des utilisateurs et des rôles avec le Security Bundle de Symfony.
 
     * Base de données:
-        La base de données qui a été utilisée pour le développement: **MySQL**.
+        **MySQL**  
 
 ![front_driveAPI](https://github.com/user-attachments/assets/8d3797d9-3eef-4135-876a-d4229f6df808)
 
