@@ -4,7 +4,7 @@
 Application de partage de documents (par exemple des partitions au format PDF)
 
 
-## Authors
+## Auteurs
 
 - [@L-FÈJ-P](https://github.com/ElphP)
 - [@Remi](https://github.com/jeSuisUnDeveloppeur)
