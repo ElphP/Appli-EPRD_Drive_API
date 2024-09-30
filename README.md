@@ -18,7 +18,7 @@ Cette application de partage de bibliothèque a été conçue pour faciliter la 
 
 Le projet a été développé dans une optique pédagogique, avec une séparation claire entre le frontend (interface utilisateur) et le backend (gestion des données et logique métier). 
 
-Cette structure permet de bien comprendre les interactions entre une interface web moderne et une API REST.
+Cette structure permet de bien comprendre les interactions entre une interface web moderne et une API REST privée.
 
   * **Fonctionnalités**
   
@@ -43,7 +43,7 @@ Cette structure permet de bien comprendre les interactions entre une interface w
     
         Symfony : Un framework PHP pour la gestion des utilisateurs, des documents, et la sécurisation des routes.
 
-        API REST : L'application expose des endpoints API pour permettre la communication avec le frontend React.
+        API REST : L'application expose des endpoints API pour permettre la communication avec le frontend React. Cette API est une API privée.
 
         Doctrine ORM : Utilisé pour l'interaction avec la base de données.
 
