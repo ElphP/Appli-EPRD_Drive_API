@@ -17,6 +17,7 @@ const useTokenExpiration = () => {
                     .join("")
             );
 
+            
             const payload = JSON.parse(jsonPayload);
             return payload.exp * 1000;
         };
