@@ -44,7 +44,7 @@ class AppFixtures extends Fixture
         $user->setEmail("user@drive_API.com");
         $user->setRoles(["ROLE_USER"]);
         $user->setPassword($this->userPasswordHasher->hashPassword($user, "password"));
-        $user->setName("user1");
+        $user->setAlias("user1");
         // relation manytomany 2files
         $user->addFile($file2);
         $user->addFile($file3);
@@ -55,7 +55,7 @@ class AppFixtures extends Fixture
         $user2->setEmail("user2@drive_API.com");
         $user2->setRoles(["ROLE_USER"]);
         $user2->setPassword($this->userPasswordHasher->hashPassword($user2, "password"));
-        $user2->setName("user2");
+        $user2->setAlias("user2");
         // relation manytomany 1files
         $user2->addFile($file1); 
         $manager->persist($user2);
@@ -64,7 +64,7 @@ class AppFixtures extends Fixture
         $user3->setEmail("user3@drive_API.com");
         $user3->setRoles(["ROLE_USER"]);
         $user3->setPassword($this->userPasswordHasher->hashPassword($user3, "password"));
-        $user3->setName("user3");
+        $user3->setAlias("user3");
         // relation manytomany 1files
         
         $manager->persist($user3);
@@ -75,7 +75,7 @@ class AppFixtures extends Fixture
         $userAdmin->setEmail("admin@drive_API.com");
         $userAdmin->setRoles(["ROLE_ADMIN"]);
         $userAdmin->setPassword($this->userPasswordHasher->hashPassword($userAdmin, "password"));
-        $userAdmin->setName("admin1");
+        $userAdmin->setAlias("admin1");
            // relation manytomany 3files
         $userAdmin->addFile($file1);
         $userAdmin->addFile($file2);

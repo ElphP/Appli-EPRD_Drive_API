@@ -1,17 +1,47 @@
  
     h1  {
         color:white;
-      padding-top: 2%;
-      padding-bottom: 1%;
+        
         font-size: 3.5rem;
-        text-align: center;
-        background-color: rgba(0,0,0,0.5);
+        /* background-color: rgba(0,0,0,0.5); */
     }
+
+header  {
+     padding-top: 2%;
+      padding-bottom: 1%;
+    background-color: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: space-between;
+}
+
+.title  {
+    flex-grow: 1;
+}
+
+.title h1  {
+    width: 100%;
+}
+
+
+button.deconnect  {
+   
+     padding: 8px 25px;
+    margin-right: 5%;
+    font-size: 1.5rem;
+    font-weight: 500;
+    align-self: center;
+    background-color: transparent;
+    color: red;
+    border: 2px solid red;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
     h2.user {
         color:  #ff8f4e;
         text-align: center;
          font-size: 2rem;
-         background-color: rgba(0,0,0,0.5);
+         /* background-color: rgba(0,0,0,0.5); */
           padding-bottom: 1%;
     }
    

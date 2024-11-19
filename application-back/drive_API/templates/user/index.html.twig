@@ -1,15 +1,77 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello!{% endblock %}
+{% block title %}Page Mot de passe
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+	<style>
+		body {
+			background-image: URL({{asset('images/biblio2-min.jpg')}});
+			background-size: cover;
+			
+		}
+		h1 {
+			color: #fff;
+			background-color: rgba(0, 0, 0, 0.6);
+			padding-bottom: 1%;
+			font-size: 3.5rem;
+			text-align: center;
+			align-self: baseline;
+			font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 
-<div class="example-wrapper">
-    <h1>Hello </h1>
+		}
+		h2 {
+			color: #FF8F4E;
+			background-color: #333333;
+			padding: 5px 15px;
 
-</div>
+			font-size: 1.8rem;
+		}
+
+		.hide h2 {
+			background-color: rgba(0, 0, 0, 0.6);
+		}
+
+		.wrapper {
+			margin: 3em auto;
+			max-width: 500px;
+			width: 95%;
+			font: 18px / 1.5 sans-serif;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center
+		}
+		.hide {
+			border-radius: 20px;
+			position: relative;
+			width: 100%;
+			text-align: center
+		}
+		.hide::before {
+			content: "Survole cette zone pour découvrir ton nouveau mot de passe";
+			background-color: #007BFF;
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			font-size: 1.8rem;
+			border-radius: 20px;
+			padding: 8px;
+			left: 0
+		}
+		.hide:hover::before {
+			background-color: transparent;
+			content: "";
+		}
+	</style>
+
+	<h1>Application Partothèque</h1>
+	<div class="wrapper">
+		<h2>{{message}}</h2>
+		<div class="hide">
+			<h2>{{password}}</h2>
+		</div>
+	</div>
+
+
 {% endblock %}

@@ -33,3 +33,13 @@
 .mess  {
     color: rgb(249, 64, 64);
 }
+
+.MDP__label  {
+    display: flex;
+}
+
+.MDP__label button  {
+    margin: 4px 0;
+    padding-top: 3px;
+    
+}

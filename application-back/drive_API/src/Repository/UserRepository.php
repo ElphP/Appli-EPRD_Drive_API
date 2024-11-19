@@ -38,11 +38,11 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     public function findAllUserProperties()
     {
         return $this->createQueryBuilder('u')
-            ->select('u.id AS user_id , u.name AS user_name , f.nom AS file_name , f.id AS file_id')
+            ->select('u.id AS user_id , u.alias AS user_alias , f.nom AS file_name , f.id AS file_id')
             ->leftJoin('u.files', 'f') 
             ->where('u.roles LIKE :role') // Filtre pour le rôle ROLE_USER
             ->setParameter('role', '%ROLE_USER%') // Paramètre pour le filtre
-            ->orderBy('u.name','ASC')
+            ->orderBy('u.alias','ASC')
             ->addOrderBy('f.nom', 'ASC')
             ->getQuery()
             ->getArrayResult();

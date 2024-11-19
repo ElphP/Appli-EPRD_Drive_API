@@ -1,18 +1,24 @@
 import "./AdminPage.css";
 // Importation des bibliothèques nécessaires
 import React, { useEffect, useState, useRef } from "react";
-// import { useNavigate } from "react-router-dom";
+// import { Navigate } from "react-router-dom";
 import DocumentAdmin from "../Admin/DocumentAdmin";
 import UserCard from "../Admin/UserCard";
 import FileUpload from "./Modal/FileUpload";
 import CreateUser from "./Modal/CreateUser";
 import TrashModal from "./Modal/TrashModal";
-import { useLocation } from "react-router-dom";
+import ChangeIdAdmin from "./Modal/ChangeIdAdmin";
+import { useLocation, useNavigate } from "react-router-dom";
 import imgTrash from "../../images/trash-can-solid.svg";
 import imgPlus from "../../images/plus-solid (1).svg";
 
+// hook personnalisé (gestion de l'obsolescence du token)
+import useTokenExpiration from "../../hooks/useTokenExpiration";
 
 const AdminPage = () => {
+
+ useTokenExpiration();
+
     const location = useLocation();
     const { state } = location;
     const username = state.username || "'Utilisateur non identifié'";
@@ -104,9 +110,9 @@ const AdminPage = () => {
                 console.log(draggedElementJSON, targetItem);
                
                   try {
-      
+                const apiUrl = process.env.REACT_APP_API_URL;
                 const response = await fetch(
-                    "https://127.0.0.1:8000/drive_API/addFileToUser",
+                    `${apiUrl}/drive_API/addFileToUser`,
                     {
                         method: "POST",
                         headers: {
@@ -181,14 +187,16 @@ const AdminPage = () => {
         const [showModal1, setShowModal1] = useState(false);
         const [showModal2, setShowModal2] = useState(false);
         const [showModal3, setShowModal3] = useState(false);
+        const [showModal4, setShowModal4] = useState(false);
         
         // rafraichissement (si la BDD évolue)
    useEffect(() => {
        if (changeDB) {
            const fetchUpdatedData = async () => {
                try {
+                    const apiUrl = process.env.REACT_APP_API_URL;
                    const response = await fetch(
-                       "https://127.0.0.1:8000/drive_API/user",
+                       `${apiUrl}/drive_API/user`,
                        {
                            method: "GET",
                            headers: {
@@ -216,21 +224,28 @@ const AdminPage = () => {
        // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [changeDB]);
 
+
+
+//    modales
         const ModalOpen1 = (event) => {
-            console.log(event.target.id);
+            // console.log(event.target.id);
             setShowModal1(true);
               }
         const ModalOpen2 = (event) => {
-            console.log(event.target.id);
+            // console.log(event.target.id);
             setShowModal2(true);
               }
         const ModalOpen3 = () => {
             setShowModal3(true);
               }
+        const ModalOpen4 = () => {
+            setShowModal4(true);
+              }
 
         const handleClose1 = () => setShowModal1(false);
         const handleClose2 = () => setShowModal2(false);
         const handleClose3 = () => setShowModal3(false);
+        const handleClose4 = () => setShowModal4(false);
 
 
         // logique pour ajouter le fondNoir
@@ -260,12 +275,34 @@ const AdminPage = () => {
      }, []);
         
     
-     
+
+    //  déconnexion
+     const navigate = useNavigate();
+
+     const handleLogOut = () => {
+         localStorage.removeItem("token");
+         localStorage.removeItem("role");
+         navigate("/login");
+     };
+   
+
 // JSX
 
     return (
         <div className="fond">
-            <h1>Bonjour {username}</h1>
+            <header>
+                <button
+                    className="changeId"
+                    onClick={(event) => ModalOpen4(event)}
+                >
+                    Changer mes identifiants
+                </button>
+                <h1>Bonjour {username}</h1>
+
+                <button className="deconnect" onClick={handleLogOut}>
+                    Me déconnecter
+                </button>
+            </header>
             <div className="present">
                 <div className="align">
                     <p>
@@ -426,11 +463,17 @@ const AdminPage = () => {
                         handleClose={handleClose2}
                         changeOnDB={changeOnDB}
                     />
+
                     <TrashModal
                         show={showModal3}
                         handleClose={handleClose3}
                         data={dataDelete}
                         changeOnDB={changeOnDB}
+                    />
+                    <ChangeIdAdmin
+                        show={showModal4}
+                        handleClose={handleClose4}
+                       handleLogOut={handleLogOut}
                     />
                 </div>
             </main>

@@ -15,35 +15,26 @@ const LoginPage = () => {
     const location = useLocation();
     const message = location.state?.message;
 
-   
-    
-
     useEffect(() => {
         if (token) {
-            
+            const apiUrl = process.env.REACT_APP_API_URL;
             const fetchData = async () => {
                 try {
-                    const response = await fetch(
-                        "https://127.0.0.1:8000/drive_API/user",
-                        {
-                            method: "GET",
-                            headers: {
-                                Authorization: `Bearer ${token}`,
-                                "Content-Type": "application/json",
-                            },
-                        }
-                    );
+                    const response = await fetch(`${apiUrl}/drive_API/user`, {
+                        method: "GET",
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            "Content-Type": "application/json",
+                        },
+                    });
                     if (!response.ok) {
                         throw new Error(
                             `HTTP error! status: ${response.status}`
                         );
-                    }
-                    else {
+                    } else {
                         const data = await response.json();
                         setDataAPI(data); // Stocker les données utilisateur
                     }
-                   
-                    
                 } catch (error) {
                     console.log("Erreur de récupération de données:", error);
                 }
@@ -82,29 +73,38 @@ const LoginPage = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         //appel API pour le token
-        const response = await fetch(
-            "https://127.0.0.1:8000/drive_API/login_check",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ username, password }),
-                
-            }
-            
-        );
+        const apiUrl = process.env.REACT_APP_API_URL;
+        const response = await fetch(`${apiUrl}/drive_API/login_check`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ username, password }),
+        });
 
         if (response.ok) {
             const dataToken = await response.json();
             setToken(dataToken.token);
             localStorage.setItem("token", dataToken.token);
+        } else if (response.status === 401 || response.status === 400) {
+            navigate("/", {
+                state: {
+                    message: "Identifiants non reconnus.\nVeuillez réessayer.",
+                },
+            });
+        } else if (response.status === 500) {
+            navigate("/", {
+                state: {
+                    message:
+                        "Erreur du serveur.\nVeuillez réessayer plus tard.",
+                },
+            });
         } else {
-             navigate("/", {
-                 state: {
-                     message: "Identifiants non reconnus.\nVeuillez réessayer.",
-                 },
-             });
+            navigate("/", {
+                state: {
+                    message: "Erreur.\nVeuillez réessayer plus tard.",
+                },
+            });
         }
 
         //  code cidessous: dataTests pour l'app react avant la mise en place de l'API
@@ -160,14 +160,50 @@ const LoginPage = () => {
         // });
     };
 
+    const handleForgottenPassword = async () => {
+       try {
+            const apiUrl = process.env.REACT_APP_API_URL;
+            const response = await fetch(
+                `${apiUrl}/drive_API/request_new_password`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ username }),
+                }
+            );
+        
+                const data = await response.json();
+           
+            
+                navigate("/", {
+                state: {
+                    message: data.message,
+                },
+            })
+      
+            
+       
+       } catch (error) {
+            console.log(error);
+            
+       }
+        
+            
+    }      
+    
+    
     return (
         <>
-            <h1 className="conn">Application Partothèque</h1>
+            <header>
+                <h1 className="conn">Application Partothèque</h1>
+            </header>
             <div className="containerConnex">
                 <h2>Connexion</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="formGroup">
-                        <label htmlFor="username">Nom d'utilisateur</label>
+                        <label htmlFor="username">Email de connexion</label>
                         <input
                             type="text"
                             id="username"
@@ -183,22 +219,21 @@ const LoginPage = () => {
                             id="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            required
                         />
                     </div>
                     <button className="btnLogin" type="submit">
                         Se connecter
                     </button>
+                    <div
+                        className="btnOubliMDP"
+                        data-title="Cliquez ici pour obtenir un mail de réinitialisation (en indiquant bien votre email de connexion)."
+                        onClick={handleForgottenPassword}
+                    >
+                        <p>Créer ou réinitialiser son mot de passe</p>
+                    </div>
                 </form>
                 <div>
-                    {message && (
-                        <div
-                            className="error-message"
-                            
-                        >
-                            {message}
-                        </div>
-                    )}
+                    {message && <div className="error-message">{message}</div>}
                 </div>
             </div>
         </>

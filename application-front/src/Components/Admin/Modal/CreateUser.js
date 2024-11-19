@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "./CreateUser.css";
 
+
+// import generatePassword from "../../../Services/passwordCreation"
+
 const CreateUser = ({ show, handleClose, changeOnDB }) => {
     const showHideClassName = show
         ? "modal display-flex"
@@ -9,36 +12,40 @@ const CreateUser = ({ show, handleClose, changeOnDB }) => {
     const overlay = show ? "overlay display-block" : "overlay display-none";
 
     const [mail, setMail] = useState("");
-    const [mdp, setMdp] = useState("");
+    const [firstname, setFirstname] = useState("");
     const [alias, setAlias] = useState("");
 
     const [mess, setMess] = useState("");
 
+    
+
     useEffect(() => {
-        if (mail === "" || mdp === "" || alias === "") {
+        if (mail === "" || firstname === "" || alias === "") {
             setMess(
                 "Les 3 champs sont requis pour la création d'un utilisateur!"
             );
         } else {
             setMess("");
         }
-    }, [mail, mdp, alias]);
+    }, [mail, firstname, alias]);
 
     useEffect(() => {
         if (!show) {
             // Réinitialise les valeurs des inputs quand la modal devient cachée
             setMail("");
-            setMdp("");
+            setFirstname("");
             setAlias("");
         }
+        
     }, [show]);
 
     const handleCreate = async () => {
-        console.log(mail, mdp, alias);
+        console.log(mail, firstname, alias);
         //  envoyer le json avec les associations ci-dessous à l'adresse addUser
         try {
+            const apiUrl = process.env.REACT_APP_API_URL;
             const response = await fetch(
-                "https://127.0.0.1:8000/drive_API/addUser",
+                `${apiUrl}/drive_API/addUser`,
                 {
                     method: "POST",
                     headers: {
@@ -48,7 +55,7 @@ const CreateUser = ({ show, handleClose, changeOnDB }) => {
                     },
                     body: JSON.stringify({
                         mail,
-                        mdp,
+                        firstname,
                         alias,
                     }),
                 }
@@ -57,7 +64,9 @@ const CreateUser = ({ show, handleClose, changeOnDB }) => {
             const data = await response.json();
             if (!response.ok) {
                 console.log(data.error);
+                // à recoder correctement
                 setMess(data.error);
+            
                 
             } else {
                 console.log("Réponse:", data);
@@ -72,12 +81,17 @@ const CreateUser = ({ show, handleClose, changeOnDB }) => {
     const handleChangeMail = (event) => {
         setMail(event.target.value);
     };
-    const handleChangeMdp = (event) => {
-        setMdp(event.target.value);
+    const handleChangeFirstname = (event) => {
+        setFirstname(event.target.value);
     };
     const handleChangeAlias = (event) => {
         setAlias(event.target.value);
     };
+
+    // const handleGeneratePassword = (event)=>  {
+        
+    //     setMdp(generatePassword());
+    // }
 
     return (
         <>
@@ -91,13 +105,6 @@ const CreateUser = ({ show, handleClose, changeOnDB }) => {
                         id="mail"
                         value={mail}
                     />
-                    <label htmlFor="mdp">Mot de passe*</label>
-                    <input
-                        type="text"
-                        onChange={handleChangeMdp}
-                        id="mdp"
-                        value={mdp}
-                    />
                     <label htmlFor="alias">
                         Pseudo de l'utilisateur* (affiché dans la liste)
                     </label>
@@ -106,6 +113,17 @@ const CreateUser = ({ show, handleClose, changeOnDB }) => {
                         onChange={handleChangeAlias}
                         id="alias"
                         value={alias}
+                    />
+                    <div className="MDP__label">
+                        <label htmlFor="mdp">Prénom de l'utilisateur*</label>
+                       
+                    </div>
+                    <input
+                        type="text"
+                        onChange={handleChangeFirstname}
+                        id="mdp"
+                        value={firstname}
+                       
                     />
 
                     <div className="buttons">

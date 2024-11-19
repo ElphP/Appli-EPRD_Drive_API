@@ -18,6 +18,10 @@
             filter: blur(5px);
             z-index: -50;
 }
+
+header h1  {
+  flex-grow: 1;
+}
     
 
    

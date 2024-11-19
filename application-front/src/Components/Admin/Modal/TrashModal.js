@@ -11,8 +11,9 @@ const TrashModal = ({ show, handleClose, data, changeOnDB }) => {
         if (data[0] === "user") {
             // envoyer un json avec user_id et alias pour supprimer (user_id) et renvoyer le nom de l'utilisateur supprimé (son alias) à  l'adress deleteUser
                 try {
+                    const apiUrl = process.env.REACT_APP_API_URL;
                     const response = await fetch(
-                        "https://127.0.0.1:8000/drive_API/deleteUser",
+                        `${apiUrl}/drive_API/deleteUser`,
                         {
                             method: "DELETE",
                             headers: {
@@ -47,8 +48,9 @@ const TrashModal = ({ show, handleClose, data, changeOnDB }) => {
             // Poubelle utilisée avec un doc pour un utilisateur donné: appel à la méthode removeFileToUser de l'API
            
              try {
+                const apiUrl = process.env.REACT_APP_API_URL;
                  const response = await fetch(
-                     "https://127.0.0.1:8000/drive_API/removeFileToUser",
+                     `${apiUrl}/drive_API/removeFileToUser`,
                      {
                          method: "DELETE",
                          headers: {
@@ -79,9 +81,9 @@ const TrashModal = ({ show, handleClose, data, changeOnDB }) => {
         // Poubelle utilisée avec doc admin : appel à la methode deletePrivateFile de l'api
         else if (data[0] === "doc") {
             try {
-      
+                const apiUrl = process.env.REACT_APP_API_URL;
                 const response = await fetch(
-                    "https://127.0.0.1:8000/drive_API/deleteFile",
+                    `${apiUrl}/drive_API/deleteFile`,
                     {
                         method: "DELETE",
                         headers: {

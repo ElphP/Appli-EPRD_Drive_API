@@ -30,17 +30,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string The hashed password
      */
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?string $password = null;
 
     #[ORM\Column(length: 50)]
-    private ?string $name = null;
+    private ?string $alias = null;
 
     /**
      * @var Collection<int, File>
      */
     #[ORM\ManyToMany(targetEntity: File::class, mappedBy: 'users')]
     private Collection $files;
+
+    #[ORM\Column(length: 255)]
+    private ?string $firstname = null;
 
     public function __construct()
     {
@@ -134,14 +137,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    public function getName(): ?string
+    public function getAlias(): ?string
     {
-        return $this->name;
+        return $this->alias;
     }
 
-    public function setName(string $name): static
+    public function setAlias(string $alias): static
     {
-        $this->name = $name;
+        $this->alias = $alias;
 
         return $this;
     }
@@ -169,6 +172,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if ($this->files->removeElement($file)) {
             $file->removeUser($this);
         }
+
+        return $this;
+    }
+
+    public function getFirstname(): ?string
+    {
+        return $this->firstname;
+    }
+
+    public function setFirstname(string $firstname): static
+    {
+        $this->firstname = $firstname;
 
         return $this;
     }

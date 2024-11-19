@@ -16,28 +16,32 @@ class UserService
     public function __construct(
         UserPasswordHasherInterface $userPasswordHasher,
         UserRepository $userRepository,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        
     ) {
         $this->userPasswordHasher = $userPasswordHasher;
         $this->userRepository = $userRepository;
         $this->entityManager = $entityManager;
+      
     }
 
-    public function createUser(string $email, string $password, string $name): ?User
+  
+
+public function createUser(string $email, string $firstname, string $alias): ?User
     {
         // Vérifier si l'utilisateur existe déjà (email et/ou alias)
         $existingMail = $this->userRepository->findOneBy(['email' => $email]);
-        $existingName = $this->userRepository->findOneBy(['name' => $name]);
-        if ($existingMail  || $existingName) {
+        $existingAlias = $this->userRepository->findOneBy(['alias' => $alias]);
+        if ($existingMail  || $existingAlias) {
             return null;
         }
 
-        // Créer un nouvel utilisateur
+        // sinon Créer un nouvel utilisateur
         $user = new User();
         $user->setEmail($email);
-        $user->setName($name);
-        $hashedPassword = $this->userPasswordHasher->hashPassword($user, $password);
-        $user->setPassword($hashedPassword);
+        $user->setAlias($alias);
+        $user->setFirstname($firstname);
+       
         $user->setRoles(["ROLE_USER"]);
 
         // Sauvegarder l'utilisateur dans la base de données
@@ -46,7 +50,7 @@ class UserService
 
         return $user;
     }
-
+    
     public function deleteUser(string $user_id): ?user {
        $user= $this->userRepository->find($user_id);
         // Vérifier si l'utilisateur existe
@@ -63,5 +67,20 @@ class UserService
 
     }
 
-  
+    public function changeIdAdmin(string $email, string $password, User $user): ?User
+    {
+
+        
+        $user->setEmail($email);
+        
+        $hashedPassword = $this->userPasswordHasher->hashPassword($user, $password);
+        $user->setPassword($hashedPassword);
+       
+
+        // Sauvegarder les changements dans la base de données
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+
+        return $user;
+    }
 }

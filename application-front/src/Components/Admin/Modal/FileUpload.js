@@ -59,8 +59,9 @@ const FileUpload = ({show, handleClose, changeOnDB}) => {
              formData.append("nom", titre);
 
               try {
+                const apiUrl = process.env.REACT_APP_API_URL;
                   const response = await fetch(
-                      "https://127.0.0.1:8000/drive_API/upLoadFile",
+                      `${apiUrl}/drive_API/upLoadFile`,
                       {
                           method: "POST",
                           headers: {

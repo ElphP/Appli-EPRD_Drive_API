@@ -6,8 +6,7 @@ import SecurityRoute from "./Components/SecurityRoute";
 import {
     BrowserRouter as Router,
     Route,
-    Routes,
-    // Navigate,
+    Routes
 } from "react-router-dom";
 // import React, { useState, useEffect } from "react";
 import AdminPage from "./Components/Admin/AdminPage";
@@ -17,11 +16,6 @@ import UserPage from "./Components/UserPage/UserPage";
 function App() {
   
 
-
-    const handleLogout = () => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("role");
-    };
 
   return (
       <>
@@ -33,7 +27,7 @@ function App() {
                       path="/admin"
                       element={
                           <SecurityRoute requiredRole="admin">
-                              <AdminPage onLogout={handleLogout} />
+                              <AdminPage  />
                           </SecurityRoute>
                       }
                   />
@@ -41,7 +35,7 @@ function App() {
                       path="/user/:userID"
                       element={
                           <SecurityRoute requiredRole="user">
-                              <UserPage onLogout={handleLogout} />
+                              <UserPage  />
                           </SecurityRoute>
                       }
                   />

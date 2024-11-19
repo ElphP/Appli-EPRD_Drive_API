@@ -28,3 +28,7 @@
 ###> lexik/jwt-authentication-bundle ###
 /config/jwt/*.pem
 ###< lexik/jwt-authentication-bundle ###
+# Algo des mots de passe
+/src/Service/PasswordCreateService.php
+
+/Dockerfile

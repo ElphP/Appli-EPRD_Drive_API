@@ -8,3 +8,17 @@ controllers:
 
 api_login_check:
     path: /drive_API/login_check
+
+
+# config/routes.yaml
+# email_test:
+#     path: /send-test-email
+#     controller: App\Controller\EmailController::sendTestEmail
+
+token_invalid_page:
+    path: /token-invalid
+    controller: App\Controller\TokenController::invalid
+
+token_not_found_page:
+    path: /token-not-found
+    controller: App\Controller\TokenController::notFound

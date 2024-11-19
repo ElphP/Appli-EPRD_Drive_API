@@ -12,6 +12,11 @@
     padding: 8px;
 }
 
+.title  {
+    display: flex;
+    flex-direction: column;
+}
+
 
 
 .userCard img  {

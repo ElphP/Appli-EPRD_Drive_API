@@ -1,91 +1,105 @@
-
-    h1  {
-        color:white;
-      padding-top: 2%;
-        font-size: 3.5rem;
-        text-align: center;
-    }
-
-    h2.admin  {
-      color:  #ff8f4e;
-        text-align: center;
-         font-size: 2.8rem;
-       
-         width: 100%;
-    }
-
-    main  {
-      display: flex;
-      padding: 4%;
-    }
-    .containerAdmin  {
-      width: 60%;
-    }
-    .containerUser  {
-      width: 40%;
-      padding: 5%;
-      
-       border: 3px solid white;
-       border-radius: 15px;
-    }
-
-    .listDoc
-      {
-      display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: start;
-        align-items: start;
-        gap: 5%;
-        padding: 0 5%;
-        
-    }
-
-    .containerAdmin li {
-      list-style-type: none;
-    }
-
-.CD {
-  display: flex;
-  justify-content: center;
-  width: 100%;
+h1 {
+    color: white;
+    /* padding-top: 2%; */
+    font-size: 3.5rem;
+    text-align: center;
+    align-self: baseline;
 }
 
-    .CD .plus  {
-      font-size: 1.6rem;
-      background-color: #007bff;
-      cursor: pointer;
-    }
+h2.admin {
+    color: #ff8f4e;
+    text-align: center;
+    font-size: 2.8rem;
+   
+    width: 100%;
+}
 
-    .CD .trash, .CD .plus  {
-     
-      padding: 20px;
-      width: 80px;
-      height: 80px;
-      border-radius: 20px;
-       margin: 20px;
-         border: none;
-    
-    }
+main {
+    display: flex;
+    padding: 4%;
+}
+.containerAdmin {
+    width: 60%;
+}
+.containerUser {
+    width: 40%;
+    padding: 5%;
 
-    .CD  {
-       position: -webkit-sticky; /* Pour les anciens navigateurs */
+    border: 3px solid white;
+    border-radius: 15px;
+}
+
+.listDoc {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: start;
+    align-items: start;
+    gap: 5%;
+    padding: 0 5%;
+}
+
+.containerAdmin li {
+    list-style-type: none;
+}
+
+.CD {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.CD .plus {
+    font-size: 1.6rem;
+    background-color: #007bff;
+    cursor: pointer;
+}
+
+.btnDiv {
+  display: flex;
+  flex-direction: column;
+}
+
+button.changeId {
+    padding: 8px 25px;
+    margin-left: 2%;
+    font-size: 1.5rem;
+    align-self: center;
+    background-color: #ff8f4e;
+    border-radius: 20px;
+    font-weight: 500; 
+    cursor: pointer; 
+     border: 2px solid black;
+}
+
+
+
+.CD .trash,
+.CD .plus {
+    padding: 20px;
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
+    margin: 20px;
+    border: none;
+}
+
+.CD {
+    position: -webkit-sticky; /* Pour les anciens navigateurs */
     position: sticky;
     top: 5px; /* Positionne la zone de dépôt en haut de la page */
-    
-    }
+}
 
-  .CDFondNoir  {
-    
+.CDFondNoir {
     display: flex;
     justify-content: center;
     border-radius: 20px;
-   padding: 0 10px;
-  }
+    padding: 0 10px;
+}
 
-    .CD .trash  {
-      background-color: rgb(249, 64, 64);
-    }
+.CD .trash {
+    background-color: rgb(249, 64, 64);
+}
 
 [data-title]:hover:after {
     opacity: 1;
@@ -113,37 +127,34 @@
     position: relative;
 }
 
-.present  {
-  
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
-  
+.present {
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
 }
 
-.align p  {
-  font-size: 1.5rem;
-  text-align: center;
+.align p {
+    font-size: 1.5rem;
+    text-align: center;
 }
 
-.align  {
-  max-width: 50%;
+.align {
+    max-width: 50%;
 }
 
-.present li  {
-  list-style-type:circle;
-  font-size: 1.2rem;
-  
+.present li {
+    list-style-type: circle;
+    font-size: 1.2rem;
 }
-.present ul  {
-  margin-left: 60px;
-  margin-top: 10px;
+.present ul {
+    margin-left: 60px;
+    margin-top: 10px;
 }
 
-.fond  {
-  background-color: rgba(0,0,0,0.5);
+.fond {
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .containerUser li {
@@ -151,9 +162,8 @@
     margin: 15px 0;
 }
 
-.noData  {
-  color: white;
-  text-align: center;
-  font-size: 1.5rem;
+.noData {
+    color: white;
+    text-align: center;
+    font-size: 1.5rem;
 }
-

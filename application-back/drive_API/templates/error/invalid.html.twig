@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lien expiré{% endblock %}
+
+{% block body %}
+<style>
+	body {
+		font-family: Arial, sans-serif;
+		background-color: #f4f4f4;
+		text-align: center;
+		padding: 50px;
+	}
+	.container {
+		background-color: #fff;
+		padding: 20px;
+		border-radius: 10px;
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		display: inline-block;
+	}
+	h1 {
+		color: #333;
+	}
+	p {
+		color: #666;
+	}
+	a {
+		color: #007BFF;
+		text-decoration: none;
+	}
+	a:hover {
+		text-decoration: underline;
+	}
+</style>
+
+
+<div class="container">
+	<h1>Lien expiré ou invalide</h1>
+	{{message}}
+	<p>Vous pouvez redemander une réinitialisation du mot de passe sur la page d'accueil de l'application.</p>
+	
+</div>
+
+
+
+{% endblock %}
