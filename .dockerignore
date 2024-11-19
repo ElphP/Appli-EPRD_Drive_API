@@ -1,0 +1,3 @@
+# ignorer le fichier env utile au développement mais pas en production avec docker
+.env
+.env.local
